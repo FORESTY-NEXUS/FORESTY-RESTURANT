@@ -1,15 +1,29 @@
+import { AuthProvider } from './context/AuthContext';
+import { SocketProvider } from './context/SocketContext';
+import { NotificationProvider } from './context/NotificationContext';
+import { CartProvider } from './context/CartContext';
 import './globals.css';
 
 export const metadata = {
-  title: 'CHEEZARILLA — Where Every Bite Melts With Flavor',
-  description: 'Premium Pakistani restaurant serving gourmet burgers, loaded fries, pizza, fried chicken, and more. Experience the ultimate cheese-filled fast food in Islamabad.',
-  keywords: 'CHEEZARILLA, Pakistani restaurant, burgers, pizza, loaded fries, fast food, Islamabad',
+  title: 'FORESTY RESTURANT - Where Every Bite Melts With Flavor',
+  description: 'FORESTY RESTURANT is a premium Pakistani restaurant serving gourmet burgers, loaded fries, pizza, fried chicken, and more in Islamabad.',
+  keywords: 'FORESTY, FORESTY RESTURANT, Pakistani restaurant, burgers, pizza, loaded fries, fast food, Islamabad',
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AuthProvider>
+          <SocketProvider>
+            <NotificationProvider>
+              <CartProvider>
+                {children}
+              </CartProvider>
+            </NotificationProvider>
+          </SocketProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }

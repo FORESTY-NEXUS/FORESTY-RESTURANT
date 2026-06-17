@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import { ShoppingCart } from 'lucide-react';
+import { Search } from 'lucide-react';
 
 const categories = ['All', 'Burgers', 'Pizza', 'Wraps', 'Fries', 'Drinks', 'Desserts'];
 
@@ -21,14 +22,35 @@ const menuItems = [
 ];
 
 export default function Menu() {
+  const [searchQuery, setSearchQuery] = useState('');
   const [active, setActive] = useState('All');
-  const filtered = active === 'All' ? menuItems : menuItems.filter(i => i.cat === active);
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const filtered = menuItems.filter((item) => {
+    const matchesCategory = active === 'All' ? true : item.cat === active;
+    const matchesSearch = normalizedQuery
+      ? `${item.name} ${item.desc} ${item.cat}`.toLowerCase().includes(normalizedQuery)
+      : true;
+
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <section className="section" id="menu" style={{ background: 'linear-gradient(180deg, var(--black), #0d0d0d)' }}>
       <p className="section-sub">Our Menu</p>
       <h2 className="section-title">Taste The Extraordinary</h2>
       <p className="section-desc">Every dish is crafted with passion, premium ingredients, and an obsession for cheesy perfection.</p>
+
+      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px', padding: '0 20px' }}>
+        <label className="nav-search" aria-label="Search food" style={{ width: '100%', maxWidth: '400px', borderRadius: '12px' }}>
+          <Search size={16} />
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search your food..."
+          />
+        </label>
+      </div>
 
       <div className="menu-cats">
         {categories.map(c => (
@@ -37,6 +59,12 @@ export default function Menu() {
           </button>
         ))}
       </div>
+
+      {normalizedQuery && (
+        <p className="menu-search-status">
+          Showing results for "{searchQuery.trim()}"
+        </p>
+      )}
 
       <div className="menu-grid">
         {filtered.map((item, i) => (
@@ -57,6 +85,13 @@ export default function Menu() {
           </div>
         ))}
       </div>
+
+      {!filtered.length && (
+        <div className="menu-empty">
+          <h3>No food found</h3>
+          <p>Try a different search or switch to another category.</p>
+        </div>
+      )}
     </section>
   );
 }

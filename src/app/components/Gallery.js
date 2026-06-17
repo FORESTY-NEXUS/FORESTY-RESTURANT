@@ -21,7 +21,7 @@ export default function Gallery() {
         <Camera size={18} /> Gallery
       </p>
       <h2 className="section-title">A Feast For The Eyes</h2>
-      <p className="section-desc">Take a visual tour of our restaurant, kitchen, and the food that makes CHEEZARILLA legendary.</p>
+      <p className="section-desc">Take a visual tour of our restaurant, kitchen, and the food that makes FORESTY legendary.</p>
       <div className="gallery-grid">
         {images.map((img, i) => (
           <div className="gallery-item reveal" key={i} onClick={() => setLightbox(img.src)} style={{ transitionDelay: `${i * 0.1}s` }}>

@@ -17,7 +17,7 @@ export default function Facilities() {
     <section className="section" id="facilities">
       <p className="section-sub">Our Facilities</p>
       <h2 className="section-title">Premium Experience</h2>
-      <p className="section-desc">We go beyond food — every visit to CHEEZARILLA is designed to be a premium experience.</p>
+      <p className="section-desc">We go beyond food - every visit to FORESTY RESTURANT is designed to be a premium experience.</p>
       <div className="facilities-grid">
         {facilities.map((f, i) => (
           <div className="facility-card reveal" key={i} style={{ transitionDelay: `${i * 0.08}s` }}>

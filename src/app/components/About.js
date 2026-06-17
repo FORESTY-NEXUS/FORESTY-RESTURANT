@@ -44,17 +44,17 @@ export default function About() {
   return (
     <section className="section" id="about">
       <p className="section-sub">Our Story</p>
-      <h2 className="section-title">About CHEEZARILLA</h2>
-      <p className="section-desc">Born from a passion for bold flavors and cheesy perfection, CHEEZARILLA brings you Pakistani taste with a modern fusion twist.</p>
+      <h2 className="section-title">About FORESTY RESTURANT</h2>
+      <p className="section-desc">Born from a passion for bold flavors and unforgettable meals, FORESTY RESTURANT brings you Pakistani taste with a modern fusion twist.</p>
 
       <div className="about-grid reveal">
         <div className="about-img">
-          <Image src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800" alt="CHEEZARILLA Interior" width={600} height={400} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
+          <Image src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800" alt="FORESTY RESTURANT Interior" width={600} height={400} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
         </div>
         <div className="about-text">
-          <p>At CHEEZARILLA, we believe in crafting every dish with <strong style={{ color: '#F4B400' }}>premium ingredients</strong> sourced from the finest local suppliers. Our chefs blend traditional Pakistani spices with modern culinary techniques to deliver an unforgettable dining experience.</p>
+          <p>At FORESTY RESTURANT, we believe in crafting every dish with <strong style={{ color: '#F4B400' }}>premium ingredients</strong> sourced from the finest local suppliers. Our chefs blend traditional Pakistani spices with modern culinary techniques to deliver an unforgettable dining experience.</p>
           <p>Whether you're craving a juicy Zilla Cheese Burger dripping with our signature cheese sauce or our crispy Dynamite Loaded Fries, every bite is a celebration of flavor. We serve families, friends, and foodies in a <strong style={{ color: '#C1121F' }}>warm, welcoming environment</strong> that feels like home.</p>
-          <p>With <strong style={{ color: '#F4B400' }}>lightning-fast service</strong> and a menu that caters to every craving, CHEEZARILLA is redefining fast food in Pakistan — one cheesy masterpiece at a time.</p>
+          <p>With <strong style={{ color: '#F4B400' }}>lightning-fast service</strong> and a menu that caters to every craving, FORESTY RESTURANT is redefining fast food in Pakistan - one memorable meal at a time.</p>
         </div>
       </div>
 

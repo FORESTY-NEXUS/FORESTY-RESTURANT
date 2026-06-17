@@ -23,8 +23,7 @@ function WaveSeparator({ flip }) {
   );
 }
 
-export default function Home() {
-  useEffect(() => {
+export default function Home() {  useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -39,6 +38,8 @@ export default function Home() {
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
     return () => observer.disconnect();
   }, []);
+
+
 
   return (
     <>

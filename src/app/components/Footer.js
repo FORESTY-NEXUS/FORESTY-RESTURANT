@@ -17,8 +17,8 @@ export default function Footer() {
     <footer className="footer">
       <div className="footer-grid">
         <div className="footer-brand">
-          <h2>CHEEZARILLA</h2>
-          <p>Where Every Bite Melts With Flavor. Premium Pakistani fast food crafted with passion, served with love. Join the Zilla family today.</p>
+          <h2>FORESTY RESTURANT</h2>
+          <p>Where Every Bite Melts With Flavor. Premium Pakistani fast food crafted with passion, served with love. Join the FORESTY family today.</p>
           <div className="social-links" style={{ marginTop: '20px' }}>
             {socialIcons.map((icon, i) => (
               <div className="social-link" key={i}>{icon}</div>
@@ -42,7 +42,7 @@ export default function Footer() {
       </div>
       <div className="footer-bottom">
         <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
-          © 2026 CHEEZARILLA. All Rights Reserved. Designed with <Heart size={14} fill="var(--red)" color="var(--red)" /> by CHEEZARILLA
+          © 2026 FORESTY RESTURANT. All Rights Reserved. Designed with <Heart size={14} fill="var(--red)" color="var(--red)" /> by FORESTY
         </p>
       </div>
     </footer>

@@ -28,7 +28,7 @@ export default function Testimonials() {
         <MessageSquare size={18} /> Testimonials
       </p>
       <h2 className="section-title">What Our Customers Say</h2>
-      <p className="section-desc">Real reviews from real food lovers who can&apos;t get enough of CHEEZARILLA.</p>
+      <p className="section-desc">Real reviews from real food lovers who can&apos;t get enough of FORESTY.</p>
 
       <div className="testimonial-slider">
         <div className="testimonial-track" style={{ transform: `translateX(-${current * 100}%)` }}>

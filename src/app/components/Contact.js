@@ -55,7 +55,7 @@ export default function Contact() {
             }} />
             <div style={{ zIndex: 1, color: 'var(--red)' }}><MapPin size={64} fill="var(--red)" fillOpacity={0.2} /></div>
             <div style={{ zIndex: 1, textAlign: 'center' }}>
-              <h4 style={{ marginBottom: '5px' }}>CHEEZARILLA</h4>
+              <h4 style={{ marginBottom: '5px' }}>FORESTY RESTURANT</h4>
               <p style={{ color: 'rgba(245,245,245,.5)', fontSize: '.85rem' }}>Main Food Street, Islamabad</p>
               <p style={{ color: 'var(--yellow)', fontSize: '.8rem', marginTop: '8px', cursor: 'pointer' }}>Open on Google Maps →</p>
             </div>
