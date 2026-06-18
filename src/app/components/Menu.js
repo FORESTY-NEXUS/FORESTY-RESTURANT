@@ -35,13 +35,13 @@ export default function Menu() {
   });
 
   return (
-    <section className="section" id="menu" style={{ background: 'linear-gradient(180deg, var(--black), #0d0d0d)' }}>
+    <section className="section bg-[#1c1c1c]" id="menu">
       <p className="section-sub">Our Menu</p>
       <h2 className="section-title">Taste The Extraordinary</h2>
       <p className="section-desc">Every dish is crafted with passion, premium ingredients, and an obsession for cheesy perfection.</p>
 
-      <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '30px', padding: '0 20px' }}>
-        <label className="nav-search" aria-label="Search food" style={{ width: '100%', maxWidth: '400px', borderRadius: '12px' }}>
+      <div className="mb-[30px] flex justify-center px-5">
+        <label className="nav-search w-full max-w-[400px] rounded-xl" aria-label="Search food">
           <Search size={16} />
           <input
             type="search"
@@ -70,14 +70,14 @@ export default function Menu() {
         {filtered.map((item, i) => (
           <div className="food-card reveal" key={i} style={{ transitionDelay: `${(i % 6) * 0.08}s` }}>
             <div className="food-card-img">
-              <Image src={item.img} alt={item.name} width={400} height={200} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <Image src={item.img} alt={item.name} width={400} height={200} className="h-full w-full object-cover" />
             </div>
             <div className="food-card-body">
               <h3>{item.name}</h3>
               <p className="desc">{item.desc}</p>
               <div className="food-card-bottom">
                 <span className="food-price">Rs. {item.price.toLocaleString()}</span>
-                <button className="add-btn" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button className="add-btn inline-flex items-center gap-2">
                   <ShoppingCart size={16} /> Add to Cart
                 </button>
               </div>

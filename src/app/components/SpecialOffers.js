@@ -49,14 +49,14 @@ function Timer({ hours }) {
 
 export default function SpecialOffers() {
   return (
-    <section className="section">
+    <section className="section bg-[#1c1c1c]">
       <p className="section-sub">Limited Time</p>
       <h2 className="section-title">Special Offers</h2>
       <p className="section-desc">Don&apos;t miss out on our exclusive deals — because great food deserves great prices.</p>
       <div className="offers-grid">
         {offers.map((o, i) => (
           <div className="offer-card reveal" key={i} style={{ transitionDelay: `${i * 0.15}s` }}>
-            <span className="offer-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+            <span className="offer-badge inline-flex items-center gap-1.5">
               {o.icon} {o.badge}
             </span>
             <h3>{o.title}</h3>

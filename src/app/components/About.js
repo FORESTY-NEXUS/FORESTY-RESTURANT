@@ -26,9 +26,9 @@ function Counter({ end, suffix = '', icon = null }) {
   }, [end]);
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+    <div className="flex items-center justify-center gap-1">
       <h3 ref={ref}>{count.toLocaleString()}{suffix}</h3>
-      {icon && <span style={{ display: 'flex' }}>{icon}</span>}
+      {icon && <span className="flex items-center justify-center">{icon}</span>}
     </div>
   );
 }
@@ -36,33 +36,59 @@ function Counter({ end, suffix = '', icon = null }) {
 const stats = [
   { num: 10000, suffix: '+', label: 'Happy Customers' },
   { num: 50, suffix: '+', label: 'Food Items' },
-  { num: 5, suffix: '', label: 'Star Experience', icon: <Star size={24} fill="var(--yellow)" color="var(--yellow)" /> },
+  { num: 5, suffix: '', label: 'Star Experience', icon: <Star size={28} fill="#FF4500" color="#FF4500" className="ml-1" /> },
   { num: 24, suffix: '/7', label: 'Online Orders' },
 ];
 
 export default function About() {
   return (
-    <section className="section" id="about">
-      <p className="section-sub">Our Story</p>
-      <h2 className="section-title">About FORESTY RESTURANT</h2>
-      <p className="section-desc">Born from a passion for bold flavors and unforgettable meals, FORESTY RESTURANT brings you Pakistani taste with a modern fusion twist.</p>
-
-      <div className="about-grid reveal">
-        <div className="about-img">
-          <Image src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=800" alt="FORESTY RESTURANT Interior" width={600} height={400} style={{ width: '100%', height: '400px', objectFit: 'cover' }} />
-        </div>
-        <div className="about-text">
-          <p>At FORESTY RESTURANT, we believe in crafting every dish with <strong style={{ color: '#F4B400' }}>premium ingredients</strong> sourced from the finest local suppliers. Our chefs blend traditional Pakistani spices with modern culinary techniques to deliver an unforgettable dining experience.</p>
-          <p>Whether you're craving a juicy Zilla Cheese Burger dripping with our signature cheese sauce or our crispy Dynamite Loaded Fries, every bite is a celebration of flavor. We serve families, friends, and foodies in a <strong style={{ color: '#C1121F' }}>warm, welcoming environment</strong> that feels like home.</p>
-          <p>With <strong style={{ color: '#F4B400' }}>lightning-fast service</strong> and a menu that caters to every craving, FORESTY RESTURANT is redefining fast food in Pakistan - one memorable meal at a time.</p>
-        </div>
+    <section className="relative flex flex-col items-center justify-center min-h-screen bg-[#1c1c1c] text-white overflow-hidden py-24" id="about">
+      
+      {/* Corner Images - Replace src with your actual asset paths in your public folder */}
+      <div className="absolute top-[-80px] left-[-80px] w-64 h-64 md:w-[350px] md:h-[350px] rounded-full overflow-hidden shadow-2xl z-0 pointer-events-none">
+        <Image 
+          src="/images/—Pngtree—delicious pakistani food with sauce_15589733.png" 
+          alt="Noodles Dish" 
+          fill
+          className="object-cover"
+        />
+      </div>
+      <div className="absolute top-[-80px] right-[-80px] w-64 h-64 md:w-[350px] md:h-[350px] rounded-full overflow-hidden shadow-2xl z-0 pointer-events-none">
+        <Image 
+          src="/images/—Pngtree—noodles on white plate transparent_16098830.png" 
+          alt="Meat Dish" 
+          fill
+          className="object-cover"
+        />
       </div>
 
-      <div className="stats-row">
+      {/* Section Title */}
+      <div className="absolute top-16 w-full text-center z-10">
+        <h2 className="text-[#FF0000] font-black text-3xl md:text-4xl tracking-wide uppercase drop-shadow-md">
+          ABOUT US
+        </h2>
+      </div>
+
+      {/* Main Content */}
+      <div className="relative z-10 w-full max-w-5xl px-6 text-center mt-12 mb-20">
+        <p className="text-3xl md:text-5xl font-extrabold leading-[1.5] text-gray-100">
+          We source only the freshest produce, finest spices, and <span className="text-[#FF6600]">highest quality</span> meats to ensure every bite bursts with authentic, robust flavor. No shortcuts, just <span className="text-[#FF0000]">superior ingredients</span>.
+        </p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="relative z-10 grid grid-cols-2 md:grid-cols-4 gap-6 w-full max-w-6xl px-6">
         {stats.map((s, i) => (
-          <div className="stat-card reveal" key={i} style={{ transitionDelay: `${i * 0.1}s` }}>
-            <Counter end={s.num} suffix={s.suffix} icon={s.icon} />
-            <p>{s.label}</p>
+          <div 
+            key={i} 
+            className="bg-[#151515] border border-[#222] rounded-2xl py-12 px-4 flex flex-col items-center justify-center shadow-lg"
+          >
+            <div className="text-[#FF4500] text-4xl md:text-5xl font-black mb-4">
+              <Counter end={s.num} suffix={s.suffix} icon={s.icon} />
+            </div>
+            <p className="text-gray-400 text-sm md:text-sm font-medium tracking-wide">
+              {s.label}
+            </p>
           </div>
         ))}
       </div>

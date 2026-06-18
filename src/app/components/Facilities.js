@@ -14,14 +14,14 @@ const facilities = [
 
 export default function Facilities() {
   return (
-    <section className="section" id="facilities">
+    <section className="section bg-[#1c1c1c]" id="facilities">
       <p className="section-sub">Our Facilities</p>
       <h2 className="section-title">Premium Experience</h2>
       <p className="section-desc">We go beyond food - every visit to FORESTY RESTURANT is designed to be a premium experience.</p>
       <div className="facilities-grid">
         {facilities.map((f, i) => (
           <div className="facility-card reveal" key={i} style={{ transitionDelay: `${i * 0.08}s` }}>
-            <div className="facility-icon" style={{ color: 'var(--yellow)', display: 'flex', justifyContent: 'center' }}>{f.icon}</div>
+            <div className="facility-icon flex justify-center text-brand-orange">{f.icon}</div>
             <h3>{f.title}</h3>
             <p>{f.desc}</p>
           </div>

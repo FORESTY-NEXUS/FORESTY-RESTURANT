@@ -19,7 +19,7 @@ export default function Footer() {
         <div className="footer-brand">
           <h2>FORESTY RESTURANT</h2>
           <p>Where Every Bite Melts With Flavor. Premium Pakistani fast food crafted with passion, served with love. Join the FORESTY family today.</p>
-          <div className="social-links" style={{ marginTop: '20px' }}>
+          <div className="social-links mt-5">
             {socialIcons.map((icon, i) => (
               <div className="social-link" key={i}>{icon}</div>
             ))}
@@ -41,7 +41,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '5px' }}>
+        <p className="flex items-center justify-center gap-[5px]">
           © 2026 FORESTY RESTURANT. All Rights Reserved. Designed with <Heart size={14} fill="var(--red)" color="var(--red)" /> by FORESTY
         </p>
       </div>

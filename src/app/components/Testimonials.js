@@ -23,8 +23,8 @@ export default function Testimonials() {
   }, [next]);
 
   return (
-    <section className="section">
-      <p className="section-sub" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+    <section className="section bg-[#1c1c1c]">
+      <p className="section-sub flex items-center justify-center gap-2">
         <MessageSquare size={18} /> Testimonials
       </p>
       <h2 className="section-title">What Our Customers Say</h2>
@@ -34,16 +34,16 @@ export default function Testimonials() {
         <div className="testimonial-track" style={{ transform: `translateX(-${current * 100}%)` }}>
           {reviews.map((r, i) => (
             <div className="testimonial-card" key={i}>
-              <div className="quote-icon" style={{ color: 'var(--red)', marginBottom: '15px', display: 'flex', justifyContent: 'center' }}>
+              <div className="mb-[15px] flex justify-center text-brand-red">
                 <Quote size={40} fill="var(--red)" fillOpacity={0.1} />
               </div>
-              <div className="stars" style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginBottom: '15px' }}>
+              <div className="stars mb-[15px] flex justify-center gap-1">
                 {[...Array(5)].map((_, index) => (
                   <Star key={index} size={16} fill={index < r.stars ? 'var(--yellow)' : 'transparent'} color="var(--yellow)" />
                 ))}
               </div>
-              <p style={{ fontStyle: 'normal' }}>&ldquo;{r.text}&rdquo;</p>
-              <div className="author" style={{ marginTop: '20px' }}>{r.name}</div>
+              <p className="not-italic">&ldquo;{r.text}&rdquo;</p>
+              <div className="author mt-5">{r.name}</div>
               <div className="role">{r.role}</div>
             </div>
           ))}

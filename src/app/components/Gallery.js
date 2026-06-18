@@ -16,8 +16,8 @@ export default function Gallery() {
   const [lightbox, setLightbox] = useState(null);
 
   return (
-    <section className="section" id="gallery" style={{ background: 'linear-gradient(180deg, #0d0d0d, var(--black))' }}>
-      <p className="section-sub" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+    <section className="section bg-[#1c1c1c]" id="gallery">
+      <p className="section-sub flex items-center justify-center gap-2">
         <Camera size={18} /> Gallery
       </p>
       <h2 className="section-title">A Feast For The Eyes</h2>
@@ -25,13 +25,13 @@ export default function Gallery() {
       <div className="gallery-grid">
         {images.map((img, i) => (
           <div className="gallery-item reveal" key={i} onClick={() => setLightbox(img.src)} style={{ transitionDelay: `${i * 0.1}s` }}>
-            <Image src={img.src} alt={img.alt} width={400} height={300} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <Image src={img.src} alt={img.alt} width={400} height={300} className="h-full w-full object-cover" />
           </div>
         ))}
       </div>
       <div className={`lightbox ${lightbox ? 'open' : ''}`} onClick={() => setLightbox(null)}>
         <button className="lightbox-close" onClick={() => setLightbox(null)}>✕</button>
-        {lightbox && <Image src={lightbox} alt="Gallery Preview" width={1200} height={800} style={{ maxWidth: '90%', maxHeight: '85vh', objectFit: 'contain' }} unoptimized />}
+        {lightbox && <Image src={lightbox} alt="Gallery Preview" width={1200} height={800} className="max-h-[85vh] max-w-[90%] object-contain" unoptimized />}
       </div>
     </section>
   );

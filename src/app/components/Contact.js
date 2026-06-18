@@ -16,8 +16,8 @@ const socials = [
 ];
 
 export default function Contact() {
-  return (
-    <section className="section" id="contact">
+  return ( 
+    <section className="section bg-[#1c1c1c]" id="contact">
       <p className="section-sub">Get In Touch</p>
       <h2 className="section-title">Contact Us</h2>
       <p className="section-desc">Have a question, want to place a bulk order, or just say hi? We&apos;d love to hear from you!</p>

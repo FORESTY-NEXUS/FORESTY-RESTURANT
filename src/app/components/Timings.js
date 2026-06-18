@@ -16,22 +16,18 @@ export default function Timings() {
   const dayMap = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
   return (
-    <section className="section" style={{ background: 'linear-gradient(180deg, var(--black), #0d0d0d)' }}>
-      <p className="section-sub" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+    <section className="section bg-[#1c1c1c]">
+      <p className="section-sub flex items-center justify-center gap-2">
         <Clock size={18} /> Opening Hours
       </p>
       <h2 className="section-title">Restaurant Timings</h2>
       <p className="section-desc">We&apos;re open when your cravings hit — from lunch through late-night snacking.</p>
       <div className="timings-wrap">
         {schedule.map((s, i) => (
-          <div className="timing-card reveal" key={i} style={{
-            transitionDelay: `${i * 0.08}s`,
-            borderColor: dayMap[today] === s.day ? 'var(--yellow)' : undefined,
-            background: dayMap[today] === s.day ? 'rgba(244,180,0,.05)' : undefined
-          }}>
-            <div className="day" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div className={`timing-card reveal ${dayMap[today] === s.day ? 'border-brand-orange bg-brand-orange/5' : ''}`} key={i} style={{ transitionDelay: `${i * 0.08}s` }}>
+            <div className="day">
               <Clock size={16} color={s.open ? '#4CAF50' : 'var(--red)'} />
-              {s.day} {dayMap[today] === s.day && <span style={{ fontSize: '.7rem', color: 'var(--yellow)', fontWeight: 700, marginLeft: '5px' }}>TODAY</span>}
+              {s.day} {dayMap[today] === s.day && <span className="ml-[5px] text-[.7rem] font-bold text-brand-orange">TODAY</span>}
             </div>
             <div className="time">{s.time}</div>
           </div>

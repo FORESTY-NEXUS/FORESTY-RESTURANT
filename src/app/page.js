@@ -15,11 +15,7 @@ import Footer from './components/Footer';
 
 function WaveSeparator({ flip }) {
   return (
-    <div className="wave-sep" style={flip ? { transform: 'rotate(180deg)' } : {}}>
-      <svg viewBox="0 0 1440 60" preserveAspectRatio="none">
-        <path d="M0,30 C360,60 720,0 1080,30 C1260,45 1380,15 1440,30 L1440,60 L0,60Z" fill="#0d0d0d" />
-      </svg>
-    </div>
+   <div></div>
   );
 }
 
