@@ -109,7 +109,7 @@ export default function Menu() {
               key={c} 
               className={`px-4 md:px-5 py-1.5 md:py-2 rounded-full text-xs md:text-base font-medium transition-all duration-300 ${
                 active === c 
-                  ? 'bg-orange-500 text-white shadow-[0_0_15px_rgba(249,115,22,0.3)]' 
+                  ? 'bg-[#FF0000] text-white shadow-[0_0_15px_rgba(249,115,22,0.3)]' 
                   : 'bg-[#2a2a2a] text-gray-300 hover:bg-[#3a3a3a] hover:text-white'
               }`} 
               onClick={() => setActive(c)}

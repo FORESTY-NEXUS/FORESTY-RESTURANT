@@ -257,7 +257,7 @@
 
   .offer-badge {
     @apply mb-[15px] inline-block rounded-full bg-brand-red px-4 py-1.5 text-[.75rem] font-bold text-white;
-    animation: glow 2s ease-in-out infinite;
+
   }
 
   .offer-card h3 {

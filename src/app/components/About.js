@@ -13,6 +13,8 @@ export default function AboutUsSection() {
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
+      // --- 1. UNIVERSAL ENTRY ANIMATIONS ---
+      // (This runs on ALL screen sizes)
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -21,75 +23,91 @@ export default function AboutUsSection() {
         },
       });
 
-      // 1. Animate Waves sliding in
-      tl.fromTo(
-        '.left-wave',
-        { xPercent: -100, scaleX: 0.5 },
-        { xPercent: 0, scaleX: 1, duration: 1.2, ease: 'power4.out' },
-        0
-      )
-      .fromTo(
-        '.right-wave',
-        { xPercent: 100, scaleX: 0.5 },
-        { xPercent: 0, scaleX: 1, duration: 1.2, ease: 'power4.out' },
-        0
-      )
-      
-      // 2. Animate Floating Food Items
-      .fromTo(
-        '.floating-food',
-        { scale: 0, rotation: -45, opacity: 0 },
-        { scale: 1, rotation: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'back.out(1.5)' },
-        0.3
-      )
+      tl.fromTo('.left-wave', { xPercent: -100, scaleX: 0.5 }, { xPercent: 0, scaleX: 1, duration: 1.2, ease: 'power4.out' }, 0)
+        .fromTo('.right-wave', { xPercent: 100, scaleX: 0.5 }, { xPercent: 0, scaleX: 1, duration: 1.2, ease: 'power4.out' }, 0)
+        .fromTo('.floating-food', { scale: 0, rotation: -45, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'back.out(1.5)' }, 0.3)
+        .fromTo('.about-badge', { y: -30, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.2)' }, 0.5)
+        .fromTo('.main-text', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }, 0.7)
+        .fromTo('.stat-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: 'back.out(1.2)' }, 0.9);
 
-      // 3. Animate the 'About Us' Badge
-      .fromTo(
-        '.about-badge',
-        { y: -30, opacity: 0, scale: 0.9 },
-        { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: 'back.out(1.2)' },
-        0.5
-      )
+      // Counter logic
+      tl.to('.counter', {
+        duration: 2,
+        innerText: (index, target) => parseFloat(target.getAttribute('data-target').replace('+', '')),
+        snap: { innerText: 1 }, 
+        ease: 'power1.out',
+        onUpdate: function() {
+          this.targets().forEach(target => {
+            const originalVal = target.getAttribute('data-target');
+            const hasPlus = originalVal.includes('+');
+            target.innerText = Math.ceil(target.innerText) + (hasPlus ? '+' : '');
+          });
+        }
+      }, 1.2); 
 
-      // 4. Animate Main Text
-      .fromTo(
-        '.main-text',
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' },
-        0.7
-      )
 
-      // 5. Stagger Stats Cards
-      .fromTo(
-        '.stat-card',
-        { y: 40, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: 'back.out(1.2)' },
-        0.9
-      );
-      // 5. Stagger Stats Cards & Counters
-tl.fromTo(
-  '.stat-card',
-  { y: 40, opacity: 0 },
-  { y: 0, opacity: 1, duration: 0.6, stagger: 0.15, ease: 'back.out(1.2)' },
-  0.9
-);
+      // --- 2. RESPONSIVE PARALLAX ANIMATIONS ---
+      let mm = gsap.matchMedia();
 
-// Counter Animation
-tl.to('.counter', {
-  duration: 2,
-  innerText: (index, target) => target.getAttribute('data-target'),
-  snap: { innerText: 1 }, // This makes it count by whole numbers
-  ease: 'power1.out',
-  onUpdate: function() {
-    this.targets().forEach(target => {
-      // Formats the number (optional: add commas if needed)
-      target.innerText = Math.ceil(target.innerText);
-    });
-  }
-}, 1.2); // Start slightly after the cards appear
+      // DESKTOP & TABLET (768px and up)
+      mm.add("(min-width: 768px)", () => {
+        gsap.to(".shawarma-float", {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "bottom top",
+            scrub: 1,
+          },
+          x: -150, 
+          y: 300,
+          ease: "none"
+        });
+
+        gsap.to(".burger-float", {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+            end: "bottom top",
+            scrub: 1,
+          },
+          x: 150,
+          y: 400,
+          ease: "none"
+        });
+      });
+
+      // MOBILE (767px and down)
+      mm.add("(max-width: 767px)", () => {
+        // On mobile, horizontal space is tight, so we reduce the 'x' movement significantly
+        // and keep the 'y' movement so it still feels dynamic.
+        gsap.to(".shawarma-float", {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%", // Start a bit later on mobile
+            end: "bottom top",
+            scrub: 1,
+          },
+          x: -20,  // Much smaller horizontal move
+          y: 450,  // Smaller vertical move
+          ease: "none"
+        });
+
+        gsap.to(".burger-float", {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 80%",
+            end: "bottom top",
+            scrub: 1,
+          },
+          x: 20,   // Much smaller horizontal move
+          y: 450,  // Smaller vertical move
+          ease: "none"
+        });
+      });
+
     }, sectionRef);
 
-    return () => ctx.revert(); // Cleanup GSAP context on unmount
+    return () => ctx.revert(); 
   }, []);
 
   return (
@@ -114,7 +132,7 @@ tl.to('.counter', {
 
       {/* --- FLOATING DECORATIONS --- */}
       {/* Top Left Wrap */}
-      <div className="floating-food absolute top-50 md:top-20 -left-15 md:left-12 z-20 w-44 h-44 md:w-58 md:h-58 rotate-45 transform  ">
+      <div className="floating-food shawarma-float absolute top-50 md:top-20 -left-15 md:left-12 z-20 w-44 h-44 md:w-58 md:h-58 rotate-45 transform  ">
         
         <Image 
           src="/images/shawarma.png" 
@@ -123,7 +141,7 @@ tl.to('.counter', {
       </div>
 
       {/* Top Right Burger */}
-      <div className="floating-food absolute top-50 md:top-22 -right-8 md:right-2 z-20 w-28 h-28 md:w-58 md:h-58  ">
+      <div className="floating-food burger-float absolute top-50 md:top-22 -right-8 md:right-2 z-20 w-28 h-28 md:w-58 md:h-58  ">
        <Image
   src="/images/burger2.png" 
   alt="Burger" 

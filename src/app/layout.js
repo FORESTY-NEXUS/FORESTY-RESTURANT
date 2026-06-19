@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className='"w-full min-h-screen overflow-x-hidden bg-[#1c1c1c] relative'>
         <AuthProvider>
           <SocketProvider>
             <NotificationProvider>

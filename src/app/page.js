@@ -39,6 +39,8 @@ export default function Home() {  useEffect(() => {
 
   return (
     <>
+    <main className="w-full overflow-x-hidden">
+    
       <LoadingScreen />
       <Navbar />
       <Hero />
@@ -57,6 +59,7 @@ export default function Home() {  useEffect(() => {
       <WaveSeparator flip />
       <Contact />
       <Footer />
+      </main>
     </>
   );
 }
