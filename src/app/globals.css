@@ -487,3 +487,9 @@
     box-shadow: 0 0 20px var(--red), 0 0 40px rgba(255, 0, 0, .3);
   }
 }
+
+@media (max-width: 767px) {
+  .shawarma-float {
+    transform: rotate(-75deg);
+  }
+}

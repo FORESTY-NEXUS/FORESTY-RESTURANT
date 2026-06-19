@@ -85,34 +85,52 @@ export default function AboutUsSection() {
 
       // MOBILE (767px and down) - Scroll from top waves to bottom waves
       mm.add("(max-width: 767px)", () => {
-        gsap.to(".shawarma-float", {
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 120%",
-            end: "bottom top",
-            scrub: 1,
-          },
-          x: 20,    // Slight drift inward
-          y: 980,   // Heavy vertical drop to reach the bottom wave
-          rotation: -75.0,
-          transformOrigin: "center center",
-          ease: "none"
-        });
+         gsap.set(".shawarma-float", { rotation: -120 }); 
+  gsap.set(".burger-float", { rotation: 15 });
 
-        gsap.to(".burger-float", {
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 120%",
-            end: "bottom top",
-            scrub: 1,
-          },
-          x: -20,   // Slight drift inward
-          y: 980,   // Heavy vertical drop to reach the bottom wave
-          rotation: 15,
-          transformOrigin: "center center",
-          ease: "none"
-        });
-      });
+  gsap.fromTo(".shawarma-float", 
+    // 1. The "From" Object (Start State)
+    { 
+      y: -200, 
+      opacity: 0 
+    },
+    // 2. The "To" Object (End State & ScrollTrigger)
+    { 
+      scrollTrigger: { 
+        trigger: sectionRef.current, 
+        start: "top 120%", // Using the start value from your error log
+        end: "center center",
+        scrub: 1 
+      },
+      y: 0, 
+      opacity: 1, 
+      duration: 1, 
+      ease: "none"
+    }
+  );
+
+  // Apply the same fix to the burger if needed!
+  gsap.fromTo(".shawarma-float", 
+    // 1. The "From" Object (Start State)
+    { 
+      y: -200, 
+      opacity: 0 
+    },
+    // 2. The "To" Object (End State & ScrollTrigger)
+    { 
+      scrollTrigger: { 
+        trigger: sectionRef.current, 
+        start: "top 120%", // Using the start value from your error log
+        end: "center center",
+        scrub: 1 
+      },
+      y: 0, 
+      opacity: 1, 
+      duration: 1, 
+      ease: "none"
+    }
+  );
+});
 
     }, sectionRef);
 
@@ -164,7 +182,7 @@ Z" />
 
       {/* --- FLOATING DECORATIONS --- */}
       {/* Top Left Shawarma (Starts high on mobile, moves down) */}
-      <div className="floating-food shawarma-float absolute -top-48 md:top-20 -left-4 md:left-12 z-20 w-42 h-42 md:w-58 md:h-58 transform ">
+      <div className="floating-food shawarma-float absolute -bottom-7 md:top-20 -left-4 md:left-12 z-20 w-42 h-42 md:w-58 md:h-58 transform   ">
         <Image 
           src="/images/shawarma.png" 
           alt="Wrap" fill className="object-contain"
@@ -172,7 +190,7 @@ Z" />
       </div>
 
       {/* Top Right Burger (Starts high on mobile, moves down) */}
-      <div className="floating-food burger-float absolute -top-48 md:top-22 -right-2 md:right-2 z-20 w-28 h-28 md:w-58 md:h-58 ">
+      <div className="floating-food burger-float absolute bottom-0 md:top-22 -right-2 md:right-2 z-20 w-28 h-28 md:w-58 md:h-58 ">
        <Image
           src="/images/burger2.png" 
           alt="Burger" 
@@ -182,7 +200,7 @@ Z" />
       </div>
 
       {/* --- MAIN CONTENT --- */}
-      <div className="relative z-10 max-w-6xl mx-auto px-12 flex  flex-col items-center w-full -mt-12 md:pt-0 not-lg:gap-8">
+      <div className="relative z-10 max-w-6xl mx-auto px-12 flex  flex-col items-center w-full -mt-18 md:pt-0 not-lg:gap-8">
         
         {/* Simple, bold title to replace the red badge */}
      <h2 className="section-title text-white font-black text-4xl md:text-5xl lg:text-6xl tracking-widest  md:mt-0 mb-12 md:mb-16 uppercase drop-shadow-lg">

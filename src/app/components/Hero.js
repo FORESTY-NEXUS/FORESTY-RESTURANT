@@ -72,7 +72,7 @@ export default function Hero() {
 
   return (
     <section 
-   className="hero relative min-h-full h-screen lg:min-h-screen flex flex-col justify-start lg:justify-between items-center overflow-x-hidden bg-[#212121] text-white pt-20 pb-10" id="home" ref={heroRef}>
+   className="hero relative min-h-full  lg:min-h-screen flex flex-col justify-start lg:justify-between items-center overflow-x-hidden bg-[#212121] text-white pt-20 pb-10" id="home" ref={heroRef}>
       <div className="hero-content w-full flex flex-col items-center justify-center lg:block">
         <div className="hero-showcase relative flex flex-col items-center justify-center w-full mt-[1vh] lg:mt-[16vh]">
           <h1 className="hero-title text-center
@@ -104,7 +104,7 @@ export default function Hero() {
           </div>
         </div>
         {/* ... rest of your footer code ... */}
-        <div className="w-full px-[5%] mt-2 flex flex-col items-center justify-between gap-12 lg:mt-0 lg:absolute lg:bottom-0 lg:left-0 lg:py-10 lg:flex-row lg:justify-between lg:items-end lg:gap-0 z-20">
+        <div className="w-full px-[5%] mt-2 flex flex-col items-center justify-between gap-6 lg:mt-0 lg:absolute lg:bottom-0 lg:left-0 lg:py-10 lg:flex-row lg:justify-between lg:items-end lg:gap-0 z-20">
           
           <p className="hero-copy  text-2xl  max-w-[320px] lg:text-lg font-semibold 
           leading-relaxed text-center lg:text-start">
