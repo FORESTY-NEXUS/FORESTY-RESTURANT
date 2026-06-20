@@ -85,24 +85,24 @@ export default function AboutUsSection() {
 
       // MOBILE (767px and down) - Scroll from top waves to bottom waves
       mm.add("(max-width: 767px)", () => {
-         gsap.set(".shawarma-float", { rotation: -120 }); 
+         gsap.set(".shawarma-float", { rotation: -55 }); 
   gsap.set(".burger-float", { rotation: 15 });
 
   gsap.fromTo(".shawarma-float", 
     // 1. The "From" Object (Start State)
     { 
-      y: -200, 
+      y: -500, 
       opacity: 0 
     },
     // 2. The "To" Object (End State & ScrollTrigger)
     { 
       scrollTrigger: { 
         trigger: sectionRef.current, 
-        start: "top 120%", // Using the start value from your error log
+        start: "top 50%", // Using the start value from your error log
         end: "center center",
         scrub: 1 
       },
-      y: 0, 
+      y: 100, 
       opacity: 1, 
       duration: 1, 
       ease: "none"
@@ -113,18 +113,18 @@ export default function AboutUsSection() {
   gsap.fromTo(".shawarma-float", 
     // 1. The "From" Object (Start State)
     { 
-      y: -200, 
+      y: -500, 
       opacity: 0 
     },
     // 2. The "To" Object (End State & ScrollTrigger)
     { 
       scrollTrigger: { 
         trigger: sectionRef.current, 
-        start: "top 120%", // Using the start value from your error log
+        start: "top 50%", // Using the start value from your error log
         end: "center center",
         scrub: 1 
       },
-      y: 0, 
+      y: 100, 
       opacity: 1, 
       duration: 1, 
       ease: "none"

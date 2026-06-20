@@ -488,8 +488,3 @@
   }
 }
 
-@media (max-width: 767px) {
-  .shawarma-float {
-    transform: rotate(-75deg);
-  }
-}
