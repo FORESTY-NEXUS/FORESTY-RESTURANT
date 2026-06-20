@@ -1,13 +1,18 @@
 'use client';
 import { useState, useEffect } from 'react';
-import api from '../../lib/api';
+import api from '../lib/api';
 import { Package, Clock, MapPin, Phone, CheckCircle, ChevronRight, XCircle } from 'lucide-react';
-import { useSocket } from '../../context/SocketContext';
+import { useSocket } from '../context/SocketContext';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import AuthGuard from '../components/AuthGuard';
+import { useToast } from '../context/ToastContext';
 
 export default function OrdersHistoryPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const { socket } = useSocket();
+  const toast = useToast();
 
   const fetchOrders = async () => {
     try {
@@ -61,8 +66,9 @@ export default function OrdersHistoryPage() {
     if(!confirm('Are you sure you want to cancel this order?')) return;
     try {
        await api.put(`/orders/${id}/status`, { status: 'cancelled', note: 'Cancelled by customer' });
+       toast.success('Order cancelled successfully');
     } catch (err) {
-       alert(err.response?.data?.message || 'Failed to cancel order');
+       toast.error(err.response?.data?.message || 'Failed to cancel order');
     }
   };
 
@@ -136,8 +142,11 @@ export default function OrdersHistoryPage() {
   if (loading) return <div className="section"><p style={{ textAlign: 'center' }}>Loading orders...</p></div>;
 
   return (
-    <div className="section" style={{ maxWidth: '900px', margin: '0 auto' }}>
-      <h2 className="section-title">My Orders</h2>
+    <AuthGuard roles={['customer']}>
+      <Navbar />
+      <main className="w-full overflow-x-hidden pt-[100px]">
+        <div className="section" style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <h2 className="section-title">My Orders</h2>
       
       {orders.length === 0 ? (
         <div className="menu-empty">
@@ -247,5 +256,8 @@ export default function OrdersHistoryPage() {
         </div>
       )}
     </div>
+    </main>
+    <Footer />
+    </AuthGuard>
   );
 }

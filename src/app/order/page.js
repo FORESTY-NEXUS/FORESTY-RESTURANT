@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { ShoppingCart, Search } from 'lucide-react';
 import { useCart } from '../context/CartContext';
@@ -11,7 +11,15 @@ export default function OrderPage() {
   const [active, setActive] = useState('All');
   const [menuItems, setMenuItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const { addToCart } = useCart();
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
   useEffect(() => {
     const fetchMenu = async () => {
@@ -25,13 +33,15 @@ export default function OrderPage() {
     fetchMenu();
   }, []);
 
-  const filtered = menuItems.filter((item) => {
-    const matchesCategory = active === 'All' ? true : item.category === active;
-    const matchesSearch = searchQuery.trim()
-      ? `${item.name} ${item.description} ${item.category}`.toLowerCase().includes(searchQuery.toLowerCase())
-      : true;
-    return matchesCategory && matchesSearch;
-  });
+  const filtered = useMemo(() => {
+    return menuItems.filter((item) => {
+      const matchesCategory = active === 'All' ? true : item.category === active;
+      const matchesSearch = debouncedQuery.trim()
+        ? `${item.name} ${item.description} ${item.category}`.toLowerCase().includes(debouncedQuery.toLowerCase())
+        : true;
+      return matchesCategory && matchesSearch;
+    });
+  }, [menuItems, active, debouncedQuery]);
 
   return (
     <div className="section">

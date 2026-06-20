@@ -22,8 +22,8 @@ const server = http.createServer(app);
 const io = socketHandler.init(server);
 app.set('io', io); // Make io accessible via req.app.get('io')
 
-// Body parser
-app.use(express.json());
+// Body parser with payload limits
+app.use(express.json({ limit: '10kb' }));
 
 // Set security headers
 app.use(helmet());
@@ -34,8 +34,13 @@ app.use(mongoSanitize());
 // Data sanitization against XSS
 app.use(xss());
 
-// Enable CORS
-app.use(cors());
+// Enable CORS with restrictions
+const corsOptions = {
+  origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:3000',
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Apply rate limiting
 app.use('/api', apiLimiter);
@@ -55,6 +60,7 @@ app.use('/api/otp', require('./routes/otp'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/analytics', require('./routes/analytics'));
+app.use('/api/upload', require('./routes/upload'));
 
 const PORT = process.env.PORT || 5000;
 

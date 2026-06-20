@@ -2,15 +2,16 @@
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import Link from 'next/link';
+import { useToast } from '../context/ToastContext';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('customer');
   const [terms, setTerms] = useState(false);
   const { register, loginWithGoogle } = useAuth();
+  const { error: toastError } = useToast();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -23,9 +24,11 @@ export default function RegisterPage() {
     setLoading(true);
     setError('');
     try {
-      await register(name, email, password, phone, role);
+      await register(name, email, password, phone, 'customer');
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
+      const errMsg = err.response?.data?.message || 'Registration failed';
+      setError(errMsg);
+      toastError(errMsg);
     } finally {
       setLoading(false);
     }
@@ -92,44 +95,6 @@ export default function RegisterPage() {
               required 
             />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-            <p style={{ fontSize: '.85rem', color: 'rgba(245,245,245,.6)', paddingLeft: '5px' }}>I am a:</p>
-            <div style={{ display: 'flex', gap: '10px' }}>
-              <button 
-                type="button" 
-                onClick={() => setRole('customer')}
-                style={{ 
-                  flex: 1, 
-                  padding: '10px', 
-                  borderRadius: '10px', 
-                  border: '1px solid var(--glass-border)',
-                  background: role === 'customer' ? 'var(--red)' : 'var(--glass)',
-                  color: '#fff',
-                  cursor: 'pointer',
-                  transition: 'all .3s'
-                }}
-              >
-                Customer
-              </button>
-              <button 
-                type="button" 
-                onClick={() => setRole('delivery')}
-                style={{ 
-                  flex: 1, 
-                  padding: '10px', 
-                  borderRadius: '10px', 
-                  border: '1px solid var(--glass-border)',
-                  background: role === 'delivery' ? 'var(--red)' : 'var(--glass)',
-                  color: '#fff',
-                  cursor: 'pointer',
-                  transition: 'all .3s'
-                }}
-              >
-                Delivery Agent
-              </button>
-            </div>
-          </div>
-          
           <label style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '.85rem', color: 'rgba(245,245,245,.8)', cursor: 'pointer' }}>
              <input type="checkbox" checked={terms} onChange={e => setTerms(e.target.checked)} style={{ accentColor: 'var(--red)', width: '16px', height: '16px' }} />
              I agree to the Terms & Conditions

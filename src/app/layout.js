@@ -2,6 +2,7 @@ import { AuthProvider } from './context/AuthContext';
 import { SocketProvider } from './context/SocketContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { CartProvider } from './context/CartContext';
+import { ToastProvider } from './context/ToastContext';
 import './globals.css';
 
 export const metadata = {
@@ -13,16 +14,18 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className='"w-full min-h-screen overflow-x-hidden bg-[#1c1c1c] relative'>
-        <AuthProvider>
-          <SocketProvider>
-            <NotificationProvider>
-              <CartProvider>
-                {children}
-              </CartProvider>
-            </NotificationProvider>
-          </SocketProvider>
-        </AuthProvider>
+      <body className="w-full min-h-screen overflow-x-hidden bg-[#1c1c1c] relative">
+        <ToastProvider>
+          <AuthProvider>
+            <SocketProvider>
+              <NotificationProvider>
+                <CartProvider>
+                  {children}
+                </CartProvider>
+              </NotificationProvider>
+            </SocketProvider>
+          </AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

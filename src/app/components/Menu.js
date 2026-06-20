@@ -1,9 +1,10 @@
 'use client';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import Image from 'next/image';
 import { ShoppingCart, Search } from 'lucide-react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useCart } from '../context/CartContext';
 
 const categories = ['All', 'Burgers', 'Pizza', 'Wraps', 'Fries', 'Drinks', 'Desserts'];
 
@@ -24,19 +25,31 @@ const menuItems = [
 
 export default function Menu() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedQuery, setDebouncedQuery] = useState('');
   const [active, setActive] = useState('All');
   const gridRef = useRef(null);
+  const { addToCart } = useCart();
   
-  const normalizedQuery = searchQuery.trim().toLowerCase();
-  
-  const filtered = menuItems.filter((item) => {
-    const matchesCategory = active === 'All' ? true : item.cat === active;
-    const matchesSearch = normalizedQuery
-      ? `${item.name} ${item.desc} ${item.cat}`.toLowerCase().includes(normalizedQuery)
-      : true;
+  // Debounce the search query to prevent heavy re-renders on every keystroke
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [searchQuery]);
 
-    return matchesCategory && matchesSearch;
-  });
+  const normalizedQuery = debouncedQuery.trim().toLowerCase();
+  
+  const filtered = useMemo(() => {
+    return menuItems.filter((item) => {
+      const matchesCategory = active === 'All' ? true : item.cat === active;
+      const matchesSearch = normalizedQuery
+        ? `${item.name} ${item.desc} ${item.cat}`.toLowerCase().includes(normalizedQuery)
+        : true;
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [active, normalizedQuery]);
 
   // GSAP Scroll Animation
   useEffect(() => {
@@ -131,7 +144,7 @@ export default function Menu() {
           {filtered.map((item, i) => (
             <div 
               className="food-card bg-[#2a2a2a] rounded-xl md:rounded-2xl overflow-hidden border border-gray-800 shadow-xl flex flex-col group hover:border-gray-600 transition-colors duration-300" 
-              key={i} 
+              key={item.name} 
             >
               {/* Image Container */}
               <div className="relative w-full h-28 sm:h-48 overflow-hidden">
@@ -153,7 +166,10 @@ export default function Menu() {
                   <span className="text-sm md:text-lg font-bold text-orange-400">
                     Rs. {item.price.toLocaleString()}
                   </span>
-                  <button className="w-full xl:w-auto justify-center inline-flex items-center gap-1 md:gap-2 bg-[#FF0000] hover:scale-105 text-white px-2 md:px-4 py-1.5 md:py-2 rounded md:rounded-lg text-xs md:text-sm font-semibold transition-colors duration-200">
+                  <button 
+                    onClick={() => addToCart({ ...item, _id: item.name })} 
+                    className="w-full xl:w-auto justify-center inline-flex items-center gap-1 md:gap-2 bg-[#FF0000] hover:scale-105 text-white px-2 md:px-4 py-1.5 md:py-2 rounded md:rounded-lg text-xs md:text-sm font-semibold transition-colors duration-200"
+                  >
                     <ShoppingCart size={14} className="md:w-4 md:h-4" /> 
                     <span className="hidden sm:inline">Add</span>
                   </button>

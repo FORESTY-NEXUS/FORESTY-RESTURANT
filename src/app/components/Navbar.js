@@ -2,6 +2,8 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import { ShoppingCart } from 'lucide-react';
 
 const links = [
   { label: 'Home', href: '/#home' },
@@ -16,8 +18,10 @@ const strongNavLink = 'text-[0.85rem] font-bold uppercase tracking-wider text-wh
 
 export default function Navbar() {
   const { user, logout } = useAuth();
+  const { cart } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 50);
@@ -50,18 +54,43 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Action/Auth Buttons (Right Side) */}
         <div className="hidden items-center gap-6 uppercase md:flex">
           {user ? (
-            <>
-              <Link href="/order" className={strongNavLink}>Order</Link>
-              <button 
-                onClick={logout} 
-                className="rounded-md bg-[#FF4500] px-5 py-2 text-[0.85rem] font-extrabold uppercase tracking-wider text-white transition-all duration-200 hover:bg-[#e63e00] hover:scale-105"
-              >
-                Logout
-              </button>
-            </>
+            user.role === 'admin' ? (
+              <>
+                <Link href="/admin" className={strongNavLink}>Admin Dashboard</Link>
+                <button onClick={logout} className="rounded-md bg-[#FF4500] px-5 py-2 text-[0.85rem] font-extrabold uppercase tracking-wider text-white transition-all duration-200 hover:bg-[#e63e00] hover:scale-105">Logout</button>
+              </>
+            ) : user.role === 'delivery' ? (
+              <>
+                <Link href="/delivery" className={strongNavLink}>Delivery Dashboard</Link>
+                <button onClick={logout} className="rounded-md bg-[#FF4500] px-5 py-2 text-[0.85rem] font-extrabold uppercase tracking-wider text-white transition-all duration-200 hover:bg-[#e63e00] hover:scale-105">Logout</button>
+              </>
+            ) : (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+                <Link href="/cart" style={{ position: 'relative', color: '#fff' }}>
+                  <ShoppingCart size={22} />
+                  {cart?.length > 0 && (
+                    <span style={{ position: 'absolute', top: '-8px', right: '-12px', background: 'var(--brand-red, #FF0000)', color: '#fff', fontSize: '0.65rem', fontWeight: 'bold', width: '18px', height: '18px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      {cart.reduce((total, item) => total + item.quantity, 0)}
+                    </span>
+                  )}
+                </Link>
+                <div style={{ position: 'relative' }} onMouseEnter={() => setDropdownOpen(true)} onMouseLeave={() => setDropdownOpen(false)}>
+                  <Link href="/profile" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#fff', textDecoration: 'none' }}>
+                    <div style={{ width: '38px', height: '38px', borderRadius: '50%', background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', border: '1px solid rgba(255,255,255,0.1)', cursor: 'pointer' }}>
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                  </Link>
+                  <div style={{ position: 'absolute', top: '100%', right: '0', background: 'var(--brand-gray, #2A2A2A)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', padding: '10px 0', minWidth: '150px', display: dropdownOpen ? 'flex' : 'none', flexDirection: 'column', gap: '5px', zIndex: 10 }}>
+                    <Link href="/my-orders" style={{ padding: '8px 20px', color: '#fff', fontSize: '0.85rem', textDecoration: 'none', textTransform: 'none' }}>My Orders</Link>
+                    <Link href="/profile" style={{ padding: '8px 20px', color: '#fff', fontSize: '0.85rem', textDecoration: 'none', textTransform: 'none' }}>Edit Profile</Link>
+                    <div style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '5px 0' }} />
+                    <button onClick={logout} style={{ background: 'none', border: 'none', textAlign: 'left', padding: '8px 20px', color: '#FF0000', fontSize: '0.85rem', cursor: 'pointer', textTransform: 'none' }}>Logout</button>
+                  </div>
+                </div>
+              </div>
+            )
           ) : (
             <>
               <Link href="/register" className={strongNavLink}>Sign Up</Link>
@@ -97,12 +126,24 @@ export default function Navbar() {
           </a>
         ))}
         {user ? (
-          <>
-            <Link href="/order" onClick={closeMenu} className="text-[1.3rem] font-bold uppercase text-white no-underline transition hover:text-[#FE5900]">Order</Link>
-            <button onClick={() => { logout(); closeMenu(); }} className="border-0 bg-transparent text-[1.3rem] font-semibold text-white uppercase hover:text-[#FE5900]">
-              Logout
-            </button>
-          </>
+          user.role === 'admin' ? (
+            <>
+              <Link href="/admin" onClick={closeMenu} className="text-[1.3rem] font-bold uppercase text-white no-underline transition hover:text-[#FE5900]">Admin Dashboard</Link>
+              <button onClick={() => { logout(); closeMenu(); }} className="border-0 bg-transparent text-[1.3rem] font-semibold text-white uppercase hover:text-[#FE5900]">Logout</button>
+            </>
+          ) : user.role === 'delivery' ? (
+            <>
+              <Link href="/delivery" onClick={closeMenu} className="text-[1.3rem] font-bold uppercase text-white no-underline transition hover:text-[#FE5900]">Delivery Dashboard</Link>
+              <button onClick={() => { logout(); closeMenu(); }} className="border-0 bg-transparent text-[1.3rem] font-semibold text-white uppercase hover:text-[#FE5900]">Logout</button>
+            </>
+          ) : (
+            <>
+              <Link href="/cart" onClick={closeMenu} className="text-[1.3rem] font-bold uppercase text-white no-underline transition hover:text-[#FE5900]">Cart ({cart?.reduce((a, b) => a + b.quantity, 0) || 0})</Link>
+              <Link href="/my-orders" onClick={closeMenu} className="text-[1.3rem] font-bold uppercase text-white no-underline transition hover:text-[#FE5900]">My Orders</Link>
+              <Link href="/profile" onClick={closeMenu} className="text-[1.3rem] font-bold uppercase text-white no-underline transition hover:text-[#FE5900]">Profile</Link>
+              <button onClick={() => { logout(); closeMenu(); }} className="border-0 bg-transparent text-[1.3rem] font-semibold text-[#FF0000] uppercase hover:text-[#FE5900]">Logout</button>
+            </>
+          )
         ) : (
           <>
             <Link href="/register" onClick={closeMenu} className="text-[1.3rem] font-bold uppercase text-white no-underline transition hover:text-[#FE5900]">Sign Up</Link>

@@ -113,7 +113,7 @@ export default function AboutUsSection() {
   gsap.fromTo(".shawarma-float", 
     // 1. The "From" Object (Start State)
     { 
-      y: -500, 
+      y: 0, 
       opacity: 0 
     },
     // 2. The "To" Object (End State & ScrollTrigger)
@@ -124,7 +124,7 @@ export default function AboutUsSection() {
         end: "center center",
         scrub: 1 
       },
-      y: 100, 
+      y: 0, 
       opacity: 1, 
       duration: 1, 
       ease: "none"

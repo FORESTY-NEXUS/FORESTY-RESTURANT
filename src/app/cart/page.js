@@ -1,10 +1,14 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useCart } from '../../context/CartContext';
-import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../context/CartContext';
+import { useAuth } from '../context/AuthContext';
 import { Trash2, Plus, Minus, CreditCard, Banknote, MapPin, User as UserIcon, Phone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import api from '../../lib/api';
+import api from '../lib/api';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import AuthGuard from '../components/AuthGuard';
+import { useToast } from '../context/ToastContext';
 
 export default function CartPage() {
   const { cart, removeFromCart, updateQuantity, total, clearCart } = useCart();
@@ -16,6 +20,7 @@ export default function CartPage() {
   const [deliveryNotes, setDeliveryNotes] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const toast = useToast();
 
   const tax = total * 0.16;
   const deliveryFee = 150;
@@ -51,9 +56,10 @@ export default function CartPage() {
         deliveryNotes
       });
       clearCart();
-      router.push('/order/orders');
+      toast.success('Order placed successfully!');
+      router.push('/my-orders');
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to place order');
+      toast.error(err.response?.data?.message || 'Failed to place order');
     } finally {
       setLoading(false);
     }
@@ -76,8 +82,11 @@ export default function CartPage() {
   };
 
   return (
-    <div className="section" style={{ maxWidth: '1200px', margin: '0 auto' }}>
-      <h2 className="section-title">Checkout</h2>
+    <AuthGuard roles={['customer']}>
+      <Navbar />
+      <main className="w-full overflow-x-hidden pt-[100px]">
+        <div className="section" style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          <h2 className="section-title">Checkout</h2>
       
       <div style={{ display: 'grid', gridTemplateColumns: cart.length > 0 ? '1.5fr 1fr' : '1fr', gap: '40px', alignItems: 'start' }}>
         <div>
@@ -96,7 +105,15 @@ export default function CartPage() {
                   padding: '15px' 
                 }}>
                   <div style={{ width: '80px', height: '80px', borderRadius: '10px', overflow: 'hidden', flexShrink: 0 }}>
-                    <img src={item.image} alt={item.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    <img 
+                      src={item.image || item.img || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=200&auto=format&fit=crop'} 
+                      alt={item.name} 
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=200&auto=format&fit=crop';
+                      }}
+                    />
                   </div>
                   <div style={{ flex: 1, paddingLeft: '20px' }}>
                     <h3 style={{ fontSize: '1.1rem' }}>{item.name}</h3>
@@ -224,6 +241,9 @@ export default function CartPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
+    </main>
+    <Footer />
+    </AuthGuard>
   );
 }

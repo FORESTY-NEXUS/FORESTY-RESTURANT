@@ -66,7 +66,7 @@ export default function AdminOrdersPage() {
         background: 'var(--glass)', 
         border: '1px solid var(--glass-border)', 
         borderRadius: '20px', 
-        overflow: 'hidden' 
+        overflowX: 'auto', WebkitOverflowScrolling: 'touch'
       }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>

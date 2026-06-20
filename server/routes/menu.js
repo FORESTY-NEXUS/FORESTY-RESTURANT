@@ -3,6 +3,9 @@ const router = express.Router();
 const MenuItem = require('../models/MenuItem');
 const { protect } = require('../middleware/auth');
 const { authorize } = require('../middleware/rbac');
+const { auditLog } = require('../middleware/audit');
+const validate = require('../middleware/validate');
+const { menuItemSchema } = require('../schemas');
 
 // @desc    Get all menu items
 // @route   GET /api/menu
@@ -19,7 +22,7 @@ router.get('/', async (req, res) => {
 // @desc    Create menu item
 // @route   POST /api/menu
 // @access  Private/Admin
-router.post('/', protect, authorize('admin'), async (req, res) => {
+router.post('/', protect, authorize('admin'), validate(menuItemSchema), auditLog('CREATE_MENU_ITEM', 'Menu'), async (req, res) => {
   try {
     const menuItem = await MenuItem.create(req.body);
     res.status(201).json(menuItem);
@@ -31,7 +34,7 @@ router.post('/', protect, authorize('admin'), async (req, res) => {
 // @desc    Update menu item
 // @route   PUT /api/menu/:id
 // @access  Private/Admin
-router.put('/:id', protect, authorize('admin'), async (req, res) => {
+router.put('/:id', protect, authorize('admin'), validate(menuItemSchema), auditLog('UPDATE_MENU_ITEM', 'Menu'), async (req, res) => {
   try {
     const menuItem = await MenuItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(menuItem);

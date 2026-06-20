@@ -36,8 +36,8 @@ export default function Facilities() {
         },
         // Keyframes let us sequence the scale down -> scale up effect
         keyframes: [
-          { scale: 0.85, duration: 0.5, ease: "power1.out" }, // 1. Compress down slightly
-          { scale: 1, duration: 0.5, ease: "back.out(1.5)" }  // 2. Pop back out to original size
+          { scale: 0.85,rotateX:40,duration: 1.0, ease: "power1.out" }, // 1. Compress down slightly
+          { scale: 1, rotateX:0 ,duration: 1.0, ease: "back.out(1.5)" }  // 2. Pop back out to original size
         ]
       });
     });

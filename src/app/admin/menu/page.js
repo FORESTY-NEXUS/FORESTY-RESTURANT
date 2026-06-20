@@ -1,7 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import api from '../../lib/api';
-import { Plus, Edit, Trash2, X, Check } from 'lucide-react';
+import { Plus, Edit, Trash2, X, Check, UploadCloud } from 'lucide-react';
+import { useToast } from '../../context/ToastContext';
 
 export default function AdminMenuPage() {
   const [items, setItems] = useState([]);
@@ -10,6 +11,29 @@ export default function AdminMenuPage() {
   const [formData, setFormData] = useState({
     name: '', price: '', category: 'Burgers', description: '', image: '', availability: true
   });
+  const [uploading, setUploading] = useState(false);
+  const toast = useToast();
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const formDataUpload = new FormData();
+    formDataUpload.append('image', file);
+    
+    setUploading(true);
+    try {
+      const res = await api.post('/upload', formDataUpload, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setFormData(prev => ({...prev, image: res.data.url}));
+      toast.success('Image uploaded successfully');
+    } catch (err) {
+      toast.error('Failed to upload image');
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     fetchMenu();
@@ -34,7 +58,8 @@ export default function AdminMenuPage() {
       setEditItem(null);
       setFormData({ name: '', price: '', category: 'Burgers', description: '', image: '', availability: true });
       fetchMenu();
-    } catch (err) { alert('Operation failed'); }
+      toast.success('Operation successful');
+    } catch (err) { toast.error(err.response?.data?.message || 'Operation failed'); }
   };
 
   const handleDelete = async (id) => {
@@ -42,7 +67,8 @@ export default function AdminMenuPage() {
     try {
       await api.delete(`/menu/${id}`);
       fetchMenu();
-    } catch (err) { alert('Delete failed'); }
+      toast.success('Item deleted successfully');
+    } catch (err) { toast.error('Delete failed'); }
   };
 
   return (
@@ -54,7 +80,7 @@ export default function AdminMenuPage() {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '25px' }}>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {items.map((item) => (
           <div key={item._id} className="food-card visible" style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)' }}>
             <div style={{ height: '150px', overflow: 'hidden' }}>
@@ -79,7 +105,7 @@ export default function AdminMenuPage() {
 
       {showModal && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(5px)' }}>
-          <div style={{ background: 'var(--charcoal)', border: '1px solid var(--glass-border)', borderRadius: '20px', padding: '40px', width: '100%', maxWidth: '500px' }}>
+          <div className="bg-[#1A1A1A] border border-white/10 rounded-[20px] p-[20px] md:p-[40px] w-[95%] md:w-full max-w-[500px]">
             <h3 style={{ marginBottom: '25px' }}>{editItem ? 'Edit Menu Item' : 'Add New Menu Item'}</h3>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
               <div className="nav-search" style={{ width: '100%', borderRadius: '10px' }}>
@@ -88,15 +114,21 @@ export default function AdminMenuPage() {
               <div className="nav-search" style={{ width: '100%', borderRadius: '10px' }}>
                 <input type="number" placeholder="Price (PKR)" value={formData.price} onChange={e => setFormData({...formData, price: e.target.value})} required />
               </div>
-              <div className="nav-search" style={{ width: '100%', borderRadius: '10px' }}>
-                <input type="text" placeholder="Image URL" value={formData.image} onChange={e => setFormData({...formData, image: e.target.value})} required />
+              <div className="flex items-center gap-3 w-full">
+                <div className="nav-search flex-1 rounded-[10px]">
+                  <input type="text" placeholder="Image URL" value={formData.image} onChange={e => setFormData({...formData, image: e.target.value})} required />
+                </div>
+                <label className="flex items-center justify-center bg-[#FF0000] text-white p-3 rounded-[10px] cursor-pointer hover:bg-red-600 transition-colors w-[50px] flex-shrink-0" title="Upload Image">
+                  {uploading ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <UploadCloud size={20} />}
+                  <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} disabled={uploading} />
+                </label>
               </div>
               <select 
                 value={formData.category} 
                 onChange={e => setFormData({...formData, category: e.target.value})}
-                style={{ background: 'var(--glass)', border: '1px solid var(--glass-border)', color: '#fff', padding: '12px', borderRadius: '10px', outline: 'none' }}
+                className="w-full bg-[#1A1A1A] border border-white/10 text-white p-3 rounded-[10px] outline-none appearance-none"
               >
-                {['Burgers', 'Pizza', 'Wraps', 'Fries', 'Drinks', 'Desserts'].map(c => <option key={c} value={c}>{c}</option>)}
+                {['Burgers', 'Pizza', 'Wraps', 'Fries', 'Drinks', 'Desserts'].map(c => <option key={c} value={c} className="bg-[#1A1A1A] text-white py-2">{c}</option>)}
               </select>
               <textarea 
                 placeholder="Description" 
