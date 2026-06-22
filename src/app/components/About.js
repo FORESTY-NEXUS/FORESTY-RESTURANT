@@ -141,6 +141,7 @@ export default function AboutUsSection() {
     <section 
       ref={sectionRef} 
       className="relative bg-[#1c1c1c] py-24 md:py-32 min-h-[85vh] flex flex-col items-center justify-center w-full overflow-hidden"
+      id='about'
     >
       {/* --- BACKGROUND WAVES (DESKTOP: Left/Right) --- */}
       <div className="desktop-left-wave hidden md:block absolute top-0 left-0 h-full w-[20vw] z-0 origin-left">
@@ -168,7 +169,7 @@ Z" />
       </div>
 
       <div className="mobile-bottom-wave block md:hidden absolute bottom-0 left-0 w-full h-[25vh] z-0 origin-bottom">
-        <svg preserveAspectRatio="none" viewBox="0 0 100 100" className="h-full w-full text-[#FF5722] fill-current drop-shadow-2xl">
+        <svg ptreserveAspectRatio="none" viewBox="0 0 100 100" className="h-full w-full text-[#FF5722] fill-current drop-shadow-2xl">
           {/* Dips DOWN in the center */}
         <path d="M0,25
 Q15,0 30,25

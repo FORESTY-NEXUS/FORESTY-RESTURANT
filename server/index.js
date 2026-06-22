@@ -23,27 +23,13 @@ const io = socketHandler.init(server);
 app.set('io', io); // Make io accessible via req.app.get('io')
 
 // Body parser with payload limits
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json());
 
-// Set security headers
-app.use(helmet());
+// Enable CORS
+app.use(cors({ origin: '*' }));
 
-// Data sanitization against NoSQL query injection
-app.use(mongoSanitize());
-
-// Data sanitization against XSS
-app.use(xss());
-
-// Enable CORS with restrictions
-const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' ? process.env.CLIENT_URL : 'http://localhost:3000',
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-app.use(cors(corsOptions));
-
-// Apply rate limiting
-app.use('/api', apiLimiter);
+// Apply rate limiting (commented out for debugging)
+// app.use('/api', apiLimiter);
 
 // Root route
 app.get('/', (req, res) => {

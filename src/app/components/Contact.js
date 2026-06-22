@@ -3,8 +3,8 @@ import { Phone, Mail, MapPin } from 'lucide-react';
 import { InstagramIcon, FacebookIcon, TikTokIcon, WhatsAppIcon } from './Icons';
 
 const contactInfo = [
-  { icon: <Phone size={24} />, title: 'Phone', lines: ['+92 300 4567890', '+92 321 9876543'] },
-  { icon: <Mail size={24} />, title: 'Email', lines: ['contact@cheezarilla.com'] },
+  { icon: <Phone size={24} />, title: 'Phone', lines: ['+92 319 5403032'] },
+  { icon: <Mail size={24} />, title: 'Email', lines: ['forestynexus@gmail.com'] },
   { icon: <MapPin size={24} />, title: 'Address', lines: ['Main Food Street,', 'Islamabad, Pakistan'] },
 ];
 
@@ -16,7 +16,7 @@ const socials = [
 ];
 
 export default function Contact() {
-  return ( 
+  return (
     <section className="section bg-[#1c1c1c]" id="contact">
       <p className="section-sub">Get In Touch</p>
       <h2 className="section-title">Contact Us</h2>
