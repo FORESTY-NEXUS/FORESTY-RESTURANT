@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || '/api',
 });
 
 // Attach token to requests if it exists
@@ -17,6 +17,10 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (!error.response) {
+      error.message = 'Cannot reach the API server. Make sure the backend is running.';
+    }
+
     if (error.response && error.response.status === 401) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');

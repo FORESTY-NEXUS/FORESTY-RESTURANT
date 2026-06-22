@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
+const path = require('path');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const http = require('http');
@@ -10,7 +11,7 @@ const { apiLimiter } = require('./middleware/rateLimiter');
 const socketHandler = require('./socket');
 
 // Load env vars
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 // Connect to database
 connectDB();
