@@ -1,6 +1,5 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
-import { useSocket } from './SocketContext';
 import { useAuth } from './AuthContext';
 import api from '../lib/api';
 
@@ -9,7 +8,6 @@ const NotificationContext = createContext();
 export const NotificationProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
-  const { socket } = useSocket();
   const { user } = useAuth();
 
   useEffect(() => {

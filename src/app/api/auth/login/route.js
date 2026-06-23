@@ -43,6 +43,12 @@ export async function POST(req) {
     }
 
   } catch (error) {
+    if (error.message?.toLowerCase().includes('authentication failed')) {
+      return NextResponse.json({
+        message: 'Database authentication failed. Check MONGODB_URI credentials and restart the dev server.',
+      }, { status: 500 });
+    }
+
     return NextResponse.json({ message: error.message }, { status: 500 });
   }
 }

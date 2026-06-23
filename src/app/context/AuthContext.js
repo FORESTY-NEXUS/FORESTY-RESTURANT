@@ -45,19 +45,6 @@ export const AuthProvider = ({ children }) => {
     router.push('/');
   }, [router, toast]);
 
-  const loginWithGoogle = useCallback(async (idToken) => {
-    const { data } = await api.post('/auth/google', { idToken });
-    localStorage.setItem('token', data.token);
-    localStorage.setItem('user', JSON.stringify(data));
-    setUser(data);
-    if (data.role === 'admin') router.push('/admin');
-    else if (data.role === 'delivery') router.push('/delivery');
-    else {
-      toast.success('Logged in successfully!');
-      router.push('/');
-    }
-  }, [router, toast]);
-
   const updateProfile = useCallback(async (profileData) => {
     const { data } = await api.put('/auth/me', profileData);
     localStorage.setItem('token', data.token);
@@ -80,8 +67,8 @@ export const AuthProvider = ({ children }) => {
   }, [router, toast]);
 
   const value = useMemo(() => ({
-    user, login, register, loginWithGoogle, updateProfile, forgotPassword, logout, loading
-  }), [user, login, register, loginWithGoogle, updateProfile, forgotPassword, logout, loading]);
+    user, login, register, updateProfile, forgotPassword, logout, loading
+  }), [user, login, register, updateProfile, forgotPassword, logout, loading]);
 
   return (
     <AuthContext.Provider value={value}>

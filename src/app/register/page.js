@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [terms, setTerms] = useState(false);
-  const { register, loginWithGoogle } = useAuth();
+  const { register } = useAuth();
   const { error: toastError } = useToast();
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -32,14 +32,6 @@ export default function RegisterPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleGoogleLogin = async () => {
-     try {
-         await loginWithGoogle('dummy-token');
-     } catch (err) {
-         setError('Google login currently disabled pending API keys.');
-     }
   };
 
   return (
@@ -105,22 +97,6 @@ export default function RegisterPage() {
           </button>
         </form>
 
-        <div style={{ margin: '25px 0', display: 'flex', alignItems: 'center', textAlign: 'center', color: 'rgba(245,245,245,.3)' }}>
-             <hr style={{ flex: 1, borderTop: '1px solid rgba(255,255,255,0.1)' }} />
-             <span style={{ padding: '0 10px', fontSize: '.8rem' }}>OR</span>
-             <hr style={{ flex: 1, borderTop: '1px solid rgba(255,255,255,0.1)' }} />
-        </div>
-
-        <button onClick={handleGoogleLogin} style={{ 
-            width: '100%', padding: '12px', borderRadius: '12px', background: 'rgba(255,255,255,0.1)', 
-            border: '1px solid rgba(255,255,255,0.2)', color: 'white', display: 'flex', 
-            justifyContent: 'center', alignItems: 'center', gap: '10px', cursor: 'pointer',
-            transition: 'background 0.3s'
-        }}>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google" style={{ width: '18px', height: '18px' }} />
-            Continue with Google
-        </button>
-        
         <p style={{ marginTop: '20px', textAlign: 'center', fontSize: '.9rem', color: 'rgba(245,245,245,.6)' }}>
           Already have an account? <Link href="/login" style={{ color: 'var(--yellow)', fontWeight: '600' }}>Login</Link>
         </p>

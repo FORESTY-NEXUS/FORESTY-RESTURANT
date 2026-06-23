@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import api from '../lib/api';
 import { Package, Clock, MapPin, Phone, CheckCircle, ChevronRight, XCircle } from 'lucide-react';
-import { useSocket } from '../context/SocketContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import AuthGuard from '../components/AuthGuard';
@@ -11,7 +10,6 @@ import { useToast } from '../context/ToastContext';
 export default function OrdersHistoryPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { socket } = useSocket();
   const toast = useToast();
 
   const fetchOrders = async () => {
@@ -27,23 +25,15 @@ export default function OrdersHistoryPage() {
 
   useEffect(() => {
     fetchOrders();
-  }, []);
 
-  useEffect(() => {
-    if (!socket) return;
-    
-    const handleUpdate = (updatedOrder) => {
-        setOrders(prevOrders => 
-            prevOrders.map(o => o._id === updatedOrder._id ? updatedOrder : o)
-        );
-    };
-
-    socket.on('order_status_update', handleUpdate);
+    const intervalId = setInterval(() => {
+      fetchOrders();
+    }, 10000);
 
     return () => {
-        socket.off('order_status_update', handleUpdate);
+      clearInterval(intervalId);
     };
-  }, [socket]);
+  }, []);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -66,6 +56,7 @@ export default function OrdersHistoryPage() {
     if(!confirm('Are you sure you want to cancel this order?')) return;
     try {
        await api.put(`/orders/${id}/status`, { status: 'cancelled', note: 'Cancelled by customer' });
+       await fetchOrders();
        toast.success('Order cancelled successfully');
     } catch (err) {
        toast.error(err.response?.data?.message || 'Failed to cancel order');
