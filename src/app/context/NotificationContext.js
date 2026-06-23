@@ -32,62 +32,15 @@ export const NotificationProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    if (!socket) return;
+    if (!user) return;
 
-    // Listen for order status updates
-    socket.on('order_status_update', (order) => {
-       const newNotification = {
-           _id: Date.now().toString(),
-           type: 'order_update',
-           title: 'Order Status Updated',
-           message: `Your order #${order._id.slice(-6).toUpperCase()} is now ${order.status.replace(/_/g, ' ')}.`,
-           read: false,
-           createdAt: new Date()
-       };
-       setNotifications(prev => [newNotification, ...prev]);
-       setUnreadCount(prev => prev + 1);
-       if (window.Notification && Notification.permission === 'granted') {
-         new Notification("Order Update", { body: newNotification.message });
-       }
-    });
+    // Polling fallback since Socket.io is unsupported on Vercel Serverless
+    const intervalId = setInterval(() => {
+      fetchNotifications();
+    }, 10000);
 
-    // Listen for new assignments (riders)
-    socket.on('new_assignment', (order) => {
-        const newNotification = {
-           _id: Date.now().toString(),
-           type: 'system',
-           title: 'New Delivery Assigned',
-           message: `You have been assigned order #${order._id.slice(-6).toUpperCase()}.`,
-           read: false,
-           createdAt: new Date()
-       };
-       setNotifications(prev => [newNotification, ...prev]);
-       setUnreadCount(prev => prev + 1);
-       if (window.Notification && Notification.permission === 'granted') {
-         new Notification("New Assignment", { body: newNotification.message });
-       }
-    });
-
-    // Listen for new orders (admins)
-    socket.on('new_order', (order) => {
-        const newNotification = {
-           _id: Date.now().toString(),
-           type: 'system',
-           title: 'New Order Received',
-           message: `New order #${order._id.slice(-6).toUpperCase()} received from ${order.customerName}.`,
-           read: false,
-           createdAt: new Date()
-       };
-       setNotifications(prev => [newNotification, ...prev]);
-       setUnreadCount(prev => prev + 1);
-    });
-
-    return () => {
-       socket.off('order_status_update');
-       socket.off('new_assignment');
-       socket.off('new_order');
-    };
-  }, [socket]);
+    return () => clearInterval(intervalId);
+  }, [user]);
 
   const markAsRead = async (id) => {
     try {

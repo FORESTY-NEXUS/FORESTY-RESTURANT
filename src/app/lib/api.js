@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || '/api',
+  baseURL: '/api',
 });
 
 // Attach token to requests if it exists
@@ -18,7 +18,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (!error.response) {
-      error.message = 'Cannot reach the API server. Make sure the backend is running.';
+      error.message = 'Cannot reach the API. Make sure the Next.js app is running.';
     }
 
     if (error.response && error.response.status === 401) {

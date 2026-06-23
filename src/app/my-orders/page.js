@@ -92,7 +92,7 @@ export default function OrdersHistoryPage() {
 
     let currentStepIndex = 0;
     
-    // Map granular backend statuses to visual steps
+    // Map granular API statuses to visual steps
     switch(order.status) {
         case 'pending': currentStepIndex = 0; break;
         case 'accepted': currentStepIndex = 1; break;
